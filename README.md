@@ -4,7 +4,7 @@ This is a framework developed in Perl to analyse the data created by the Avenir 
 The analysis done by the framework will help with finding trends within the products developed, which could help to make the products more user-friendly and efficient.
 
 
-## Tutorials
+## Tutorials :fire:
 I have created/ collected a bunch of tutorials for people who are interested in learning the basics of Perl and SQL:
 - [Perl Tutorial](https://docs.google.com/document/d/1bNFFfjsETlyoEkuLKitfPgXdV1aEqofiEnF1ijPwOAE/edit?usp=sharing)
 - [SQL Commands & Syntaxes](https://docs.google.com/document/d/1bNFFfjsETlyoEkuLKitfPgXdV1aEqofiEnF1ijPwOAE/edit?usp=sharing)
@@ -13,9 +13,12 @@ I have created/ collected a bunch of tutorials for people who are interested in 
 
 
 ## Tasks
-- [x] Learn basic and Perl and SQL
-- [x] Set up VM
+- [x] Learn basic and Perl and SQL :+1:
+- [x] Set up VM :ok_hand:
 - [ ] Develop a Perl framework that runs SQL on Avenir database
-- [ ] Add Graph plotting features to the framework
-- [ ] Find trends within the products by checking the data returned by the SQL queries
-- [ ] More to come...
+- [ ] Add Graph plotting features to the framework :bar_chart:
+- [ ] Find trends within the products by checking the data returned by the SQL queries :chart_with_upwards_trend:
+- [ ] More to come :soon:
+
+
+:end:
