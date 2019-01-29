@@ -1,0 +1,79 @@
+#!/usr/bin/perl -w
+#####################################################################
+# Framework to run SQL Queries on Avenir Databases
+#
+# This program is wrote to run SQL queries using a Perl Framework
+# to do data analysis
+# tab==4 spaces
+#
+# Author: Nevin Jojo
+######################################################################
+
+use strict;
+use warnings;
+
+use 5.010;
+
+use Avenir::Common::OBJ::DB;
+use Avenir::Common::Syslog qw(:all);
+
+
+######################################################################
+# Processes
+######################################################################
+
+##
+# read SQL files
+##
+sub read_sql
+{
+    my $db = shift;
+    my $dbh = $db->dbh;
+
+    my $sql_file = $ARGV[0];
+
+    open(SQL, '<', $sql_file) or die "Can't open $sql_file: $!\n";
+    while(my $line = <SQL>) {
+        my $sth = $dbh->prepare($line) or die("Can't prepare the sql statement");
+
+        $sth->execute() or die("Can't execute sql statements");
+        &report_results($sth);
+    }
+    close(SQL);
+}
+
+
+##
+# report results from SQL query
+##
+sub report_results
+{
+    my $sth = shift;
+    my $filename = $ARGV[1];
+    open(my $fh, '>', $filename) or die("Could not open file '$filename'!");
+    
+    while(my @ref = $sth->fetchrow_array())
+    {
+        print $fh join(',',@ref),"\n";
+    }
+    close($fh);
+}
+
+######################################################################
+# Main
+######################################################################
+
+# open DB
+
+my $db = Avenir::Common::OBJ::DB->new();
+
+
+# process - Read SQL Queries from .sql file
+
+&read_sql($db);
+
+
+# close  DB
+
+$db->disconnect;
+
