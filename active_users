@@ -1,0 +1,82 @@
+#!/usr/bin/perl -w
+######################################################################
+# Test Program by Avenir for Data Analysis
+#
+# This program is wrote to understand the basic function and syntaxes
+# of the Perl and the data within the Avenir databases.
+# tab==4 spaces
+#
+# Author: Nevin Jojo
+######################################################################
+
+use strict;
+use warnings;
+
+use 5.010;
+use Text::CSV;
+
+use Avenir::Common::OBJ::DB;
+use Avenir::Common::Syslog qw(:all);
+
+
+######################################################################
+# processes
+######################################################################
+
+##
+# active members
+##
+sub active_members
+{
+    my $db    = shift;            # shift gets the first parameter in the subroutine, which is $db in this case
+    my $dbh   = $db->dbh;         # creates a handle by calling the dbh function (variable?) 
+    
+                                  # $sth is a handle where the SQL query is prepared and stored to be executed
+    my $sth   = $dbh->prepare("
+        SELECT DISTINCT
+            u.username, a.action, count(a)
+        FROM
+            audit a 
+        JOIN
+            users u
+        ON
+            u.id = a.userid
+        GROUP BY
+            a.userid, u.username, a.action
+        ORDER BY
+            count DESC
+        LIMIT
+            25
+    ");
+
+    $sth->execute();              # Execute the SQL statement with specific data
+
+    my $filename = 'active_users.csv';
+    open(my $fh, '>', $filename) or die "Could not open file '$filename'!";
+    print $fh "Username,action,count\n";
+    while(my @ref = $sth->fetchrow_array())
+    {
+        print $fh join(',',@ref),"\n";
+    }
+    close($fh);
+}
+
+
+######################################################################
+# main
+######################################################################
+
+# open DB
+
+my $db = Avenir::Common::OBJ::DB->new();
+
+
+# process - Find active members
+
+&active_members($db);
+
+
+#close DB
+
+$db->disconnect;
+
