@@ -31,15 +31,23 @@ sub read_sql
     my $dbh = $db->dbh;
 
     my $sql_file = $ARGV[0];
-
-    open(SQL, '<', $sql_file) or die "Can't open $sql_file: $!\n";
-    while(my $line = <SQL>) {
-        my $sth = $dbh->prepare($line) or die("Can't prepare the sql statement");
-
-        $sth->execute() or die("Can't execute sql statements");
-        &report_results($sth);
+    
+    if (not defined $sql_file) {
+        print STDERR "SQL file not defined in command line..\n";
     }
+    
+    my $content;
+
+    open(SQL, '<', $sql_file) or open(SQL, "<scripts/$sql_file") or die "Can't open $sql_file: $!\n";
+        local $/;
+        $content = <SQL>;
     close(SQL);
+
+    my $sth = $dbh->prepare($content) or die("Can't prepare the sql statement");
+
+    $sth->execute() or die("Can't execute sql statements");
+
+    &report_results($sth);
 }
 
 
@@ -50,8 +58,15 @@ sub report_results
 {
     my $sth = shift;
     my $filename = $ARGV[1];
-    open(my $fh, '>', $filename) or die("Could not open file '$filename'!");
-    
+
+    if (not defined $filename) {
+        warn "Report file not specified; Saving results in 'reports/report.txt'.\n";
+        $filename = "report.txt";
+    }
+
+    open(my $fh, ">reports/$filename") or die("Could not open file '/reports/$filename'!");
+    binmode($fh, ":utf8");
+
     while(my @ref = $sth->fetchrow_array())
     {
         print $fh join(',',@ref),"\n";
@@ -73,7 +88,7 @@ my $db = Avenir::Common::OBJ::DB->new();
 &read_sql($db);
 
 
-# close  DB
+# close DB
 
 $db->disconnect;
 
