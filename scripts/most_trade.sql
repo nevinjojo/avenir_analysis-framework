@@ -3,14 +3,14 @@
 -- Author: Nevin Jojo
 ----------------------------------------------------------------------
 SELECT
-    a.name, count(t)
+    u.username, u.id, count(t)
 FROM
-    account a
+    users u
 JOIN
-    trans t
+    trade t
 ON
-    t.toaccount_id=a.id
+    u.id = t.sellaccount_id
 GROUP BY
-    a.name
+    u.username, u.id
 ORDER BY
     count DESC;
