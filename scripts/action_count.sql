@@ -1,7 +1,7 @@
 SELECT
-    u.username, count(a.action)
+    a.action, count(a.action)
 FROM
-    users u
+    users u 
 JOIN
     audit a
 ON
@@ -9,6 +9,6 @@ ON
 WHERE
     u.id <> 1
 GROUP BY
-    u.username
+    a.action
 ORDER BY
     count DESC;
