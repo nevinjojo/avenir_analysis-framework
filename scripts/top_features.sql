@@ -4,17 +4,21 @@
 ----------------------------------------------------------------------
 
 SELECT
-    u.id, u.username, count(au), au.detail
+    au.detail, count(au.detail) as details_count, au.action
 FROM
-    users u
-JOIN
     audit au
+JOIN
+    users u
 ON
     au.userid = u.id
 -- id id = 1 (system), then exclude the data
 WHERE
     u.id <> 1
+AND
+    detail LIKE '%/en_GB/%'
 GROUP BY
-    u.id, au.detail
+    u.id, au.detail, au.action
 ORDER BY
-    count(au) DESC;
+    details_count DESC
+LIMIT
+    150;

@@ -14,12 +14,14 @@ use warnings;
 
 use 5.010;
 use Getopt::Long qw(GetOptions);
+use File::Find;
 
 use Avenir::Common::OBJ::DB;
 use Avenir::Common::Syslog qw(:all);
 
-use File::Find;
-
+use File::Basename;
+use lib dirname (__FILE__) . "/modules";
+use fileReader;
 
 ######################################################################
 # Processes
@@ -33,7 +35,6 @@ sub find_files
     my @dirs = shift();
     my @files;
 
-    #find({ wanted => sub { push @files, $_ } , no_chdir => 1 }, @dirs);
     find({ wanted => sub { push @files, $File::Find::name } , no_chdir => 1 }, @dirs);
     return @files;
 }
@@ -42,47 +43,61 @@ sub find_files
 ##
 # read SQL files
 ##
-sub read_sql
-{
-    my $db = $_[0];
-    my $dbh = $db->dbh;
+#sub read_sql
+#{
+#    my $db = $_[0];
+#    my $dbh = $db->dbh;
 
-    my @sql_files = @{$_[1]};
+#    my @sql_files = @{$_[1]};
     
-    foreach my $file (@sql_files)
-    {
+#    foreach my $file (@sql_files)
+#    {
         #sanity check the sql file format
-        if (index($file, ".sql") == -1) {
-            next;
-        }
+#        if (index($file, ".sql") == -1) {
+#            next;
+#        }
 
-        my $content;
-
-        #Open each file and store the content
-        open(SQL, '<', $file) or open(SQL, "<scripts/$file") or warn("Can't open $file");
-            local $/;
-            $content = <SQL>;
-        close(SQL);
-        
-        # prepare the sql statement and store it in the statement handler object
-        my $sth;
-        eval {
-            $sth = $dbh->prepare($content) or warn("Can't prepare the sql statement");
-        } or do {
-            my $error = $@;
-        };
-       
-        # execute the statement handler object
-        eval {
-            $sth->execute() or warn("Can't execute sql statements");
-        } or do {
-            my $error = $@;
-        };
+        # execute sql file
+#        &execute_sql($dbh, $file);
 
         # report the results / data from the reported handler object
-        #&report_results($sth);
-    }
-}
+#        &report_results($sth, $file);
+#    }
+#}
+
+
+##
+# execute sql queries
+##
+#sub execute_sql
+#{
+#    my $dbh = $_[0];
+#    my $file = $_[1];
+#    say $file;
+#    my $content;
+
+    #Open each file and store the content
+#    open(SQL, '<', $file) or open(SQL, "<scripts/$file") or warn("Can't open $file");
+#        local $/;
+#        $content = <SQL>;
+#    close(SQL);
+        
+    # prepare the sql statement and store it in the statement handler object
+#    my $sth;
+    
+#    eval {
+#        $sth = $dbh->prepare($content) or warn("Can't prepare the sql statement");
+#    } or do {
+#        my $error = $@;
+#    };
+       
+    # execute the statement handler object
+#    eval {
+#        $sth->execute() or warn("Can't execute sql statements");
+#    } or do {
+#        my $error = $@;
+#    };
+#}
 
 
 ##
