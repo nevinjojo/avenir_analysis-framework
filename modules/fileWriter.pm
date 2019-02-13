@@ -27,15 +27,17 @@ use File::Basename;
 sub report_results
 {
     my $sth = $_[0];
-    my $filename = basename($_[1]);
-    $filename =~ s/sql/txt/ig;
-    say $filename;
-    say $sth;
+    my $filename = $main::dest;
+
+   
     # sanity check / backup report file declaration
     if (not defined $filename) {
-        warn "Report file not specified; Saving results in 'reports/report.txt'.\n";
-        $filename = "report.txt";
+        $filename = basename($_[1]);
+        $filename =~ s/sql/txt/ig;
     }
+    
+    say "Output: reports/$filename\n";
+
     
     # open report file and write $sth content to file
     open(my $fh, ">reports/$filename") or die("Could not open file '/reports/$filename'!");

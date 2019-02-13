@@ -56,7 +56,7 @@ sub execute_sql
 {
     my $dbh = $_[0];
     my $file = $_[1];
-    say $file;
+    say "Input : $file";
     my $content;
 
     # Open each file and store the content
