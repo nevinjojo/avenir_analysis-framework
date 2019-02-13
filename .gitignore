@@ -1,1 +1,6 @@
 sample_perl/
+reports/
+sql/
+*.swp
+*.swo
+*.swn
