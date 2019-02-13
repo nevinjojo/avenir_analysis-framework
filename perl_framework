@@ -21,7 +21,8 @@ use Avenir::Common::Syslog qw(:all);
 
 use File::Basename;
 use lib dirname (__FILE__) . "/modules";
-use fileReader;
+use sqlManager;
+use fileWriter;
 
 ######################################################################
 # Processes
@@ -103,25 +104,25 @@ sub find_files
 ##
 # report results from SQL query
 ##
-sub report_results
-{
-    my $sth = shift;
-    my $filename = $ARGV[1];
+#sub report_results
+#{
+#    my $sth = shift;
+#    my $filename = $ARGV[1];
 
-    if (not defined $filename) {
-        warn "Report file not specified; Saving results in 'reports/report.txt'.\n";
-        $filename = "report.txt";
-    }
+#    if (not defined $filename) {
+#        warn "Report file not specified; Saving results in 'reports/report.txt'.\n";
+#        $filename = "report.txt";
+#    }
 
-    open(my $fh, ">reports/$filename") or die("Could not open file '/reports/$filename'!");
-    binmode($fh, ":utf8");
+#    open(my $fh, ">reports/$filename") or die("Could not open file '/reports/$filename'!");
+#    binmode($fh, ":utf8");
 
-    while(my @ref = $sth->fetchrow_array())
-    {
-        print $fh join(',',@ref),"\n";
-    }
-    close($fh);
-}
+#    while(my @ref = $sth->fetchrow_array())
+#    {
+#        print $fh join(',',@ref),"\n";
+#    }
+#    close($fh);
+#}
 
 ######################################################################
 # Main
