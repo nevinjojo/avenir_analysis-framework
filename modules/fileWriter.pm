@@ -36,18 +36,26 @@ sub report_results
         $filename =~ s/sql/txt/ig;
     }
     
-    say "Output: reports/$filename\n";
+    say "Output: reports/$filename";
 
-    
-    # open report file and write $sth content to file
-    open(my $fh, ">reports/$filename") or die("Could not open file '/reports/$filename'!");
+    eval {
+        # open report file and write $sth content to file
+        open(my $fh, ">reports/$filename");
         binmode($fh, ":utf8");
-
-        while(my @ref = $sth->fetchrow_array())
-        {
-            print $fh join(',',@ref),"\n";
-        }
-    close($fh);
+        
+        eval {
+            while(my @ref = $sth->fetchrow_array())
+            {
+                print $fh join(',',@ref),"\n";
+            }
+        } or do {
+            my $error = $@;
+        };
+        close($fh);
+    } or do {
+        my $error = $@;
+        warn("Could not open file '/reports/$filename'!");
+    };
 }
 
 # File module must return a true value; hence, '1;'
