@@ -23,7 +23,7 @@ use File::Basename;
 
 ##
 # write to a txt file
-#
+##
 sub report_results
 {
     my $sth = $_[0];

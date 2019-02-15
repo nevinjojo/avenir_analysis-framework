@@ -23,6 +23,8 @@ use File::Basename;
 use lib dirname (__FILE__) . "/modules";
 use sqlManager;
 use fileWriter;
+use grapher;
+use logger;
 
 ######################################################################
 # Variables
@@ -32,6 +34,9 @@ our $src    = 'scripts/';           # source path for scripts
 our $dest;                          # destination path for reports
 our $format = 'txt';                # format of the report file
 our $client = 'aix';                # client name
+our $logfile;                       # log the errors and outputs
+
+our $timestamp = localtime(time);   #time at which the program started
 
 ######################################################################
 # Processes
@@ -58,15 +63,19 @@ GetOptions(
     'dest|d=s' => \$dest,
     'format|f=s' => \$format,
     'client|c=s' => \$client,
+    'log|l=s' => \$logfile
 ) or die "Usage: -src /PATH/TO/FILE\n
           Usage: -dest /PATH/TO/FILE\n
           Usage: -format txt or -f csv\n
-          Usage: -client aix or -c aix\n";
+          Usage: -client aix or -c aix\n
+          Usage: -log /PATH/TO/FILE\n";
 
 
 ######################################################################
 # Main
 ######################################################################
+
+# log errors and outputs
 
 # open DB
 my $db = Avenir::Common::OBJ::DB->new();
