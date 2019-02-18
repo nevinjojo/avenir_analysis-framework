@@ -1,0 +1,103 @@
+#!/bin/bash
+######################################################################
+# Avenir Analysis Framework installer
+#
+# Nevin Jojo, 18 February 2018
+######################################################################
+
+
+######################################################################
+# main
+######################################################################
+
+echo "######################################################################"
+echo "Welcome to Avenir Data Analysis Framework Installer"
+echo "######################################################################"
+
+
+# create directories
+
+echo "## Creating Directories.. ##"
+mkdir -p reports
+mkdir -p logs
+echo
+
+# install linuxbrew
+echo "## Installing Linuxbrew.. ##"
+
+COUNT=`/home/linuxbrew/.linuxbrew/bin/brew --version | wc -l`
+if [ "${COUNT}" == 0 ]; then 
+
+    echo "Note: if you are not using a Linux Machine, Install Homebrew"
+    echo
+        sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
+        test -d ~/.linuxbrew && eval $(~/.linuxbrew/bin/brew shellenv)
+        test -d /home/linuxbrew/.linuxbrew && eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
+        test -r ~/.bash_profile && echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.bash_profile
+    echo "eval \$($(brew --prefix)/bin/brew shellenv)" >>~/.profile  
+
+    echo "install GCC (recommended by LinuxBrew)"
+    echo
+        brew install gcc
+    
+    echo "## Installing yaml.. ##"
+    echo
+        brew install libyaml
+else
+    echo "LinuxBrew might be already installed"
+fi
+
+echo
+
+
+# Install Perl
+echo "## Installing Perl.. ##"
+
+COUNT=`perl -v | wc -l`
+if [ "${COUNT}" == 0 ]; then 
+    echo 
+        brew install perl
+else
+    echo "perl might be already installed"
+fi
+
+echo
+
+
+# Install CPANMinus
+echo "## Installing cpanm (perl module installer).. ##"
+
+COUNT=`man cpan | wc -l`
+if [ "${COUNT}" == 0 ]; then 
+    echo 
+        cpan App::cpanminus
+else
+    echo "cpan might be already installed"
+fi
+
+echo
+
+
+# Install necessary Perl Modules
+echo "## Install Perl Modules.. ##"
+
+modules=("File::Basename" "Log::Log4perl" "Getopt::Long" "IO::Handle")
+
+for t in "${modules[@]}" ; do
+
+    COUNT=`perldoc -l "$t" | wc -l`
+
+    if [ "${COUNT}" == 0 ]; then 
+        echo
+            cpan "$t"
+    else
+        echo "$t is already installed"
+    fi
+
+done
+
+echo
+echo "######################################################################"
+echo "Installation completed"
+echo "######################################################################"
+
