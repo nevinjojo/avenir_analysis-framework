@@ -1,6 +1,7 @@
 sample_perl/
 reports/
 sql/
+logs/
 *.swp
 *.swo
 *.swn
