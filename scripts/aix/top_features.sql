@@ -1,5 +1,5 @@
 ----------------------------------------------------------------------
--- Top actions (features) among members
+-- Top (features) among members over time
 -- Author: Nevin Jojo
 ----------------------------------------------------------------------
 
@@ -17,7 +17,7 @@ WHERE
 AND
     detail LIKE '%/en_GB/%'
 GROUP BY
-    u.id, au.detail, au.action
+    au.detail, au.action
 ORDER BY
     details_count DESC
 LIMIT
