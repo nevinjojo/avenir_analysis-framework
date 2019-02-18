@@ -58,11 +58,10 @@ GetOptions(
     'dest|d=s' => \$dest,
     'format|f=s' => \$format,
     'client|c=s' => \$client,
-) or die "Usage: -src /PATH/TO/FILE\n
-          Usage: -dest /PATH/TO/FILE\n
+) or die "Usage: -src /PATH/TO/FILE/\n
+          Usage: -dest /PATH/TO/FILE/\n
           Usage: -format txt or -f csv\n
           Usage: -client aix or -c aix\n";
-
 
 ######################################################################
 # Main

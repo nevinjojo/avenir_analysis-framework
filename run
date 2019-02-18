@@ -1,0 +1,50 @@
+#!/bin/bash
+######################################################################
+# Avenir Analysis Framework executioner
+#
+# Nevin Jojo, 18 February 2018
+######################################################################
+
+
+######################################################################
+# main
+######################################################################
+
+echo "######################################################################"
+echo "Avenir Analysis Framework"
+echo "Date: $(date)"
+echo "######################################################################"
+
+
+# flag arguments
+SOURCE="scripts/"
+DEST=""
+FORMAT="txt"
+CLIENT="aix"
+
+# setting values to optional flag
+while getopts s:d:f:c: opt; do
+    case $opt in
+        s)
+            SOURCE=$OPTARG
+            ;;
+        d)
+            DEST=$OPTARG
+            ;;
+        f)
+            FORMAT=$OPTARG
+            ;;
+        c)
+            CLIENT=$OPTARG
+            ;;
+    esac
+done
+           
+echo "SOURCE: $SOURCE, DEST: $DEST, FORMAT: $FORMAT, CLIENT: $CLIENT"
+echo "######################################################################"
+
+#if [ -z "$DEST" ]; then
+    perl main -s $SOURCE -f $FORMAT -c $CLIENT
+#else
+#    perl main -s $SOURCE -d $DEST -f $FORMAT -c $CLIENT
+#fi
