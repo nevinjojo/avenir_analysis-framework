@@ -1,16 +1,31 @@
 ----------------------------------------------------------------------
--- Memebers with most trades 
+-- Members with most trades
 -- Author: Nevin Jojo
 ----------------------------------------------------------------------
 SELECT
-    a.name, count(t)
+    ta.name,
+    count(t)
 FROM
-    account a
+    account ta
 JOIN
     trans t
 ON
-    t.toaccount_id=a.id
+    ta.id = t.toaccount_id
 GROUP BY
-    a.name
+    ta.name
+UNION
+SELECT
+    fa.name,
+    count(t)
+FROM
+    account fa
+JOIN
+    trans t
+ON
+    t.fraccount_id = fa.id
+GROUP BY
+    fa.name
 ORDER BY
-    count DESC;
+    count DESC
+LIMIT
+    100;

@@ -4,7 +4,7 @@
 ----------------------------------------------------------------------
 
 SELECT
-    au.detail, count(au.detail) as details_count, au.action
+    u.username, au.detail, count(au.detail) as details_count, au.action
 FROM
     audit au
 JOIN
@@ -17,8 +17,9 @@ WHERE
 AND
     detail LIKE '%/en_GB/%'
 GROUP BY
-    au.detail, au.action
+    u.username, au.detail, au.action
 ORDER BY
     details_count DESC
-LIMIT
-    150;
+UNION
+SELECT
+

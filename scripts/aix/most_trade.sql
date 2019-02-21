@@ -9,7 +9,7 @@ FROM
 JOIN
     trade t
 ON
-    u.id = t.sellaccount_id
+    u.id = t.creator_id
 GROUP BY
     u.username, u.id
 ORDER BY
