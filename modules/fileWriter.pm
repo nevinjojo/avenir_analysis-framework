@@ -33,7 +33,7 @@ sub report_results
     # sanity check / backup report file declaration
     if (not defined $filename) {
         $filename = basename($_[1]);
-        $filename =~ s/sql/txt/ig;
+        $filename =~ s/sql/csv/ig;
     }
     
     say "Output: reports/$filename";

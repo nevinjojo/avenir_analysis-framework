@@ -31,7 +31,7 @@ use logger;
 
 our $src    = 'scripts/';           # source path for scripts
 our $dest;                          # destination path for reports
-our $format = 'txt';                # format of the report file
+our $format = 'csv';                # format of the report file
 our $client = 'aix';                # client name
 our $logfile;                       # log the errors and outputs
 
