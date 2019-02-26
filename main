@@ -23,7 +23,6 @@ use File::Basename;
 use lib dirname (__FILE__) . "/modules";
 use sqlManager;
 use fileWriter;
-use grapher;
 use logger;
 
 ######################################################################
