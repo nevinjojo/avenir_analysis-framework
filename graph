@@ -1,9 +1,10 @@
 #!/usr/bin/gnuplot -persist
 
 if (!exists("file")) file="reports/topFeatures2018.csv"
+if (!exists("out")) out="reports/topFeatures2018.pdf"
 
 set terminal pdf enhanced
-set output 'bar.pdf'
+set output out
 set datafile separator ","
 set view 1.5
 

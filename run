@@ -21,9 +21,10 @@ SOURCE="scripts/"
 DEST=""
 FORMAT="txt"
 CLIENT="aix"
+GRAPH=""
 
 # setting values to optional flag
-while getopts s:d:f:c: opt; do
+while getopts s:d:f:c:g: opt; do
     case $opt in
         s)
             SOURCE=$OPTARG
@@ -37,14 +38,23 @@ while getopts s:d:f:c: opt; do
         c)
             CLIENT=$OPTARG
             ;;
+        g)
+            GRAPH=$OPTARG
+            ;;
     esac
 done
            
-echo "SOURCE: $SOURCE, DEST: $DEST, FORMAT: $FORMAT, CLIENT: $CLIENT"
+echo "SOURCE: $SOURCE, DEST: $DEST, FORMAT: $FORMAT, CLIENT: $CLIENT, GRAPH: $GRAPH"
 echo "######################################################################"
 
-#if [ -z "$DEST" ]; then
+
+if [ ! -z "$GRAPH" ] && [ -z "$DEST" ]; then
+    temp="pdf"
+    OUT=${GRAPH/csv/$temp}
+    #echo "$OUT"
+    gnuplot graph -e "file='$GRAPH'; out='$OUT'"
+elif [ -z "$DEST" ]; then
     perl main -s $SOURCE -f $FORMAT -c $CLIENT
 #else
 #    perl main -s $SOURCE -d $DEST -f $FORMAT -c $CLIENT
-#fi
+fi
