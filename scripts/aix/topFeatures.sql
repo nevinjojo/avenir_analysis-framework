@@ -6,28 +6,26 @@
 
 SELECT
     au.detail as detail,      
-    --extract(month from au.changed) as month,
-    count(CASE WHEN au.changed BETWEEN '2018-10-01' AND '2018-10-31' THEN au.detail END) as oct_count,
-    count(CASE WHEN au.changed BETWEEN '2018-11-01' AND '2018-10-30' THEN au.detail END) as nov_count
-    --count(au.detail) as nov_count
-    
+    -- Top Features in each year
+    count(CASE WHEN au.changed BETWEEN '2017-01-01' AND '2017-12-31' THEN au.detail END) as twenty17,
+    count(CASE WHEN au.changed BETWEEN '2018-01-01' AND '2018-12-31' THEN au.detail END) as twenty18,
+    count(CASE WHEN au.changed BETWEEN '2019-01-01' AND '2019-12-31' THEN au.detail END) as twenty19
 FROM
     audit au
 JOIN
     users u
 ON
     au.userid = u.id
---WHERE
-   -- au.changed  BETWEEN '2018-10-01' AND '2018-10-31'
 AND
     detail LIKE '%/en_GB/%'
 --id id = 1 (system), then exclude the data
 AND
     u.id <> 1
 GROUP BY
-    detail--, month
+    detail
 ORDER BY
-    oct_count,
-    nov_count DESC    --count17 DESC;
+    twenty17 DESC,
+    twenty18 DESC,
+    twenty19 DESC
 LIMIT
-    25;
+    50;
