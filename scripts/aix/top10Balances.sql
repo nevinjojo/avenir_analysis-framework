@@ -10,14 +10,20 @@ WITH
             row_number() over(PARTITION BY month ORDER BY month) as rowNum
         FROM
             (SELECT
-                (to_char(changed, 'yyyy-MM'))as month,
-                created,
+                (to_char(b.changed, 'yyyy-MM'))as month,
+                b.created,
                 sum(total) as total
             FROM
-                balance
+                balance b
+            JOIN
+                account a
+            ON
+                b.account_id = a.id
+            WHERE
+                a.id >= 32
             GROUP BY
                 month, 
-                created
+                b.created
             ORDER BY
                 month,
                 total DESC
