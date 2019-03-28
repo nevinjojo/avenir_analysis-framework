@@ -31,8 +31,8 @@ FROM
         detail, steps
     ORDER BY
         detail_count DESC
-    LIMIT
-        50
     ) as b
 WHERE
-    steps > 0;
+    steps > 0
+AND
+    detail_count > 80;
